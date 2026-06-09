@@ -1,56 +1,90 @@
-# Welcome to your Expo app 👋
+# CogniCare Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+CogniCare Mobile is an Expo SDK 56 app for patient and family cognitive health follow-up.
 
-## Get started
+## Requirements
 
-1. Install dependencies
+- Git
+- Node.js `22.13.x` or newer in the Node 22 line
+- npm, included with Node.js
+- Expo Go, Android Studio emulator, iOS Simulator, or a browser
+
+Expo SDK 56 uses React Native `0.85`, React `19.2.3`, and minimum Node.js `22.13.x`.
+
+## First Run
+
+1. From the repository root, enter this app directory.
 
    ```bash
-   npm install
+   cd "CogniCare Mobile"
    ```
 
-2. Start the app
+2. Install dependencies exactly from `package-lock.json`.
+
+   ```bash
+   npm ci
+   ```
+
+3. Start Expo.
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. Choose a target from the terminal:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   - Press `a` for Android emulator.
+   - Press `i` for iOS Simulator on macOS.
+   - Press `w` for web.
+   - Scan the QR code with Expo Go on a physical device.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Scripts
 
 ```bash
-npm run reset-project
+npm run start
+npm run android
+npm run ios
+npm run web
+npm run lint
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Project Structure
 
-### Other setup steps
+- `src/app/`: Expo Router screens and layouts
+- `src/components/`: reusable UI components
+- `src/data/`: local and network data sources
+- `src/repository/`: repository layer used by screens and hooks
+- `src/hooks/`: feature hooks
+- `assets/`: app icons and images
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Ignored Local Files
 
-## Learn more
+Do not commit these generated folders:
 
-To learn more about developing your project with Expo, look at the following resources:
+- `node_modules/`
+- `.expo/`
+- `dist/`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+They are recreated by `npm ci`, `npx expo start`, or build/export commands.
 
-## Join the community
+## Troubleshooting
 
-Join our community of developers creating universal apps.
+Clear Expo cache:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start -c
+```
+
+Check Expo dependency compatibility:
+
+```bash
+npx expo install --check
+```
+
+Run lint:
+
+```bash
+npm run lint
+```
+
+If install or startup fails, first confirm that the terminal is inside `CogniCare Mobile/` and that Node.js is `22.13.x` or newer in the Node 22 line.

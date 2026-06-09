@@ -2,14 +2,21 @@
 
 # dependencies
 node_modules/
+**/node_modules/
 
 # Expo
 .expo/
+**/.expo/
 dist/
+**/dist/
 web-build/
+**/web-build/
 expo-env.d.ts
+**/expo-env.d.ts
 .eas/
+**/.eas/
 build/
+**/build/
 
 # Native
 .kotlin/
@@ -60,3 +67,5 @@ coverage/
 # generated native folders
 /ios
 /android
+**/ios/
+**/android/

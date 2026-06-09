@@ -3,6 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@expo/metro-config": "^56.0.13",
     "@expo/ui": "~56.0.16",
     "expo": "~56.0.9",
     "expo-constants": "~56.0.17",
@@ -11,8 +12,11 @@
     "expo-glass-effect": "~56.0.4",
     "expo-image": "~56.0.10",
     "expo-linking": "~56.0.13",
+    "expo-notifications": "~56.0.16",
     "expo-router": "~56.2.9",
+    "expo-secure-store": "~56.0.4",
     "expo-splash-screen": "~56.0.10",
+    "expo-sqlite": "~56.0.4",
     "expo-status-bar": "~56.0.4",
     "expo-symbols": "~56.0.6",
     "expo-system-ui": "~56.0.5",
@@ -25,10 +29,13 @@
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
     "react-native-web": "~0.21.0",
-    "react-native-worklets": "0.8.3"
+    "react-native-worklets": "0.8.3",
+    "wa-sqlite": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~56.0.4",
     "typescript": "~6.0.3"
   },
   "scripts": {

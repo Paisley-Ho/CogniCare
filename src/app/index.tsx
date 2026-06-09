@@ -1,98 +1,58 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
+import { AppCard } from '@/components/ui/app-card';
+import { Screen } from '@/components/ui/screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { bootstrapDatabase } from '@/data/local/migrations';
+import { Spacing } from '@/constants/theme';
+import { useRepositories } from '@/repository/repository-provider';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function SplashScreen() {
+  const router = useRouter();
+  const repositories = useRepositories();
+  const [status, setStatus] = useState('正在加载应用…');
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function bootstrap() {
+      setStatus('正在准备您的随访信息…');
+      await bootstrapDatabase();
+      setStatus('正在检查本地登录状态…');
+      const session = await repositories.auth.getSession();
+      if (!mounted) return;
+      router.replace(session ? '/(tabs)/(home)' : '/(auth)/login');
+    }
+
+    bootstrap().catch(() => {
+      if (mounted) setStatus('未能获取相关信息');
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, [repositories.auth, router]);
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
+    <Screen style={{ flexGrow: 1, justifyContent: 'center' }}>
+      <AppCard style={{ gap: Spacing.three }}>
+        <ThemedText type="subtitle" selectable>
+          认知健康随访
         </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        <ThemedText selectable themeColor="textSecondary">
+          MCI 辅助筛查结果查看与随访管理
+        </ThemedText>
+        <ThemedText selectable themeColor="primary">
+          {status}
+        </ThemedText>
+        <ThemedText selectable type="small" themeColor="textSecondary">
+          本应用供受试者及家属查看筛查结果、接收提醒与填写随访记录使用
+        </ThemedText>
+        <ThemedText selectable type="small" themeColor="textSecondary">
+          结果仅供辅助参考，不作为临床诊断依据
+        </ThemedText>
+      </AppCard>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});

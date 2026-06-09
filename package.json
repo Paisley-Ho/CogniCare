@@ -2,6 +2,7 @@
   "name": "cognicare_mobile",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@expo/metro-config": "^56.0.13",
     "@expo/ui": "~56.0.16",
